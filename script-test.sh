@@ -1,18 +1,21 @@
 #!/bin/bash
+
 #add timestamp to desired file
 timestamp=$(date +"%F_%T")
+
+#find out desired filename
 echo "In which csv file would you like to save these results? Do not include .csv"
 read FILENAME
 echo "Would you like to overwrite or append to that file? [o/a]"
 read CHOICE
 echo $timestamp >./$FILENAME.list
+
 #generate randomID
 UniqueID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-
 echo $UniqueID >> ./$FILENAME.list
-#bold output
-bold=$(tput bold)
 
+#bold questions
+bold=$(tput bold)
 
 #ask questions
 read -p "${bold}What is your favorite color? "  question1_ans
@@ -27,9 +30,11 @@ echo $question2_ans >> ./$FILENAME.list
 echo $question3_ans >> ./$FILENAME.list
 echo $question4_ans >> ./$FILENAME.list
 echo $question5_ans >> ./$FILENAME.list
+
 #append or overwrite desired csv file
-if [[ "$CHOICE" == "o" ]]; then paste -d, -s ./$FILENAME.list > ./$FILENAME.csv 
- 
+if [[ "$CHOICE" == "o" ]]; then paste -d, -s ./$FILENAME.list > ./$FILENAME.csv
+echo "The responses have been recorded. File $FILENAME.csv was overwritten." 
 elif [[ "$CHOICE" == "a" ]]; then paste -d, -s ./$FILENAME.list >> ./$FILENAME.csv
-echo "The responses have been recorded."
-fi 
+echo "The responses have been recorded. File $FILENAME.csv was appended."
+
+fi
