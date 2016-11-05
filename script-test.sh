@@ -1,8 +1,11 @@
 #!/bin/bash
 
 timestamp=$(date +"%F_%T")
-
-echo $timestamp > ./example.list
+echo "In which csv file would you like to save these results? Include .csv"
+read FILENAME
+echo "Would you like to overwrite or append to that file?"
+read CHOICE
+echo $timestamp >./example.list
 
 UniqueID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
 
@@ -25,4 +28,5 @@ echo $question3_ans >> ./example.list
 echo $question4_ans >> ./example.list
 echo $question5_ans >> ./example.list
 
-paste -d, -s ./example.list >> ./example.csv
+if [$CHOICE = overwrite] then {paste -d, -s ./example.list >> ./$FILENAME}
+elif [$CHOICE = append] then {paste -d, -s ./example.list >> ./$FILENAME}
